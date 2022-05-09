@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Card } from "./components/Card";
+import { Header } from "./components/Header";
+
+const cardsImage = Array.from(Array(24).keys()).map(() => ({
+  imageUrl: "https://via.placeholder.com/200",
+  show: false,
+}));
 
 function App() {
+  const [cards, setCards] = useState(cardsImage);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Header>
+      <div className="grid grid-cols-[repeat(6,200px)] grid-rows-[unset] gap-4 justify-center grid-flow-row auto-rows-[200px] auto-cols-[200px] overflow-auto">
+        {cards.map((card, index) => (
+          <Card
+            imageUrl={card.imageUrl}
+            show={card.show}
+            onToggleShow={(show) =>
+              setCards((old) => {
+                const newCards = [...old];
+                newCards[index].show = show;
+                return newCards;
+              })
+            }
+          />
+        ))}
+      </div>
+    </Header>
   );
 }
 
